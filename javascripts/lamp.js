@@ -50,9 +50,8 @@ function lamp1(){
 
 	lamp = STRUCT([T([2])([7])(c_ring),c_lamp]);
 	
-	var c_lamp = COLOR([1,1,1])(lamp);
-	
-	return c_lamp;
+
+	return lamp;
 };
 
 
