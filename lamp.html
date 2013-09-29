@@ -1,37 +1,165 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
- <head>
+<!doctype html>
+<html>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Lamp</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.rs.slideshow.js"></script>
     <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/chairs.js"></script>
+    <script>
+	$(document).ready(function () {
+    $('#slideshow-div').rsfSlideshow();
+	});
+	
+	$('#slideshow-controls').rsfSlideshow({
+    controls: {
+        playPause: {auto: true},
+        previousSlide: {auto: true},
+        nextSlide: {auto: true},
+        index: {auto: true}
+    }
+	});
+	</script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-
-<body>
-  <div class="wrapper">
+   <body>
+    <div class="wrapper">
       <header>
-        <h1 class="header">Menu</h1>
+        <h1 class="header"><a href="http://l-trap.github.io/">Home</a></h1>
 
         <ul>
           <li><a class="buttons github" href="http://l-trap.github.io/chairs.html">Chair</a></li>
-          <li><a class="buttons github" href="http://l-trap.github.io/lamp.html">Table</a></li>
-          <li><a class="buttons github" href="http://l-trap.github.io/table.html">Lamp</a></li>
+          <li><a class="buttons github" href="http://l-trap.github.io/lamp.html">Lamp</a></li>
+          <li><a class="buttons github" href="http://l-trap.github.io/table.html">Table</a></li>
           <li><a class="buttons github" href="http://l-trap.github.io/coffeeservice.html">Coffee Service</a></li>
         </ul>
 
       </header>
-	<section>
-    
-    Here show about the lamp!
+      <section>
+        <h1>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Lamp</h1>
+
+<h3>
+<a name="decomposition" class="anchor" href="#decomposition"><span class="octicon octicon-link"></span></a>Description and decomposition</h3>
+
+<p>
+
+To model the lamp I decomposed it in three parts: <br/>
+- the upper part of the lamp<br/>
+- the lower part of the lamp<br/>
+- the bulb(and the wire)<br/>
+</p>
+
+<h3>
+<a name="main-functions" class="anchor" href="#main-functions"><span class="octicon octicon-link"></span></a>Functions used</h3>
+
+<p>
+
+Before building the various parts of this object I found useful to implement variuos support functions.
+
+One of them, the <code>CIRCLE_BEZIER</code> allows me to create a circle with Bezier curves, by passing the radius and the Z coordinate on which I desire to obtain this circle.
+
+<pre><code>
+function CIRCLE_BEZIER(r,z){
+	var rot_domain = DOMAIN([[0,1],[0,2*PI]])([40,40]);
 	
-    </section>
+	var p1 = [[r,0,z],[r*COS(PI/12),r*SIN(PI/12),z], [r*COS(PI/6),r*SIN(PI/6),z], [r*COS(PI/4),r*SIN(PI/4),z], [r*COS(PI/3),r*SIN(PI/3),z], [r*COS(5*PI/12),r*SIN(5*PI/12),z], [0,r,z]];
+	
+	var c1 = BEZIER(S0)(p1);
+	
+	return c1;
+};
+</code></pre>
+
+With this function I modeled the upper and the lower part of the lamp, in combination with the <code>BEZIER</code> function and a simple mapping.
+
+Then, to model the bulb, I used the <code>ROTATIONAL_SURFACE</code> function:
+<pre><code>
+
+	//Other code..
+	var domain = DOMAIN([[0,1],[0,2*PI]])([20,20]);
+	var profile = BEZIER(S0)([[0,0,0],[0.5,0,0.5],[2,0,2],[2,0,4],[0,0,5]]);
+	var mapping = ROTATIONAL_SURFACE(profile);
+	var surface = MAP(mapping)(domain);
+    //Other code..
+
+</code></pre>
+
+Structuring all these parts, I obtained the lamp.<br/><br/>
+
+<h3>
+<a name="view" class="anchor" href="#view"><span class="octicon octicon-link"></span></a>View on Plasm.js</h3>
+
+<p>
+<a class="buttons github" href="http://cvdlab.github.io/plasm.js/">View</a>
+</p>
+<p>
+<a class="buttons github" href="https://github.com/cvdlab-cg/281790/blob/master/final-project/javascript/lamp.js">Source code</a>
+</p>
+
+
+<h3>
+<a name="images" class="anchor" href="#images"><span class="octicon octicon-link"></span></a>Pictures</h3>
+<p>
+<div id="slideshow-div" class="rs-slideshow">
+     
+    <!-- 
+    Set up an initial slide -- this provides an image for users without JavaScript 
+    -->
+    <div class="slide-container">
+        <img src="/images/chair/tavolo-rotondo-moderno-mario-bellini-9515-2217659.jpg" />
     </div>
-</body>
+     
+    <!-- 
+    This list contains data about each slide. 
+    So that the slide images aren't loaded with the page, we use <a> tags. 
+    With some extra CSS rules, this allows for users without JavaScript to 
+    access the images by clicking the links. 
+    -->
+    <ol class="slides">
+      
+       <li>
+            <a href="/images/chair/screen01.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/chair/screen02.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/chair/screen03.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/chair/screen04.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/chair/screen05.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/chair/screen06.jpg"></a>
+        </li>
+    </ol>
+     
+</div>
+
+</p>
+      </section>
+      <footer>
+      	<h3>Contacts</h3>
+        <p><small><a href="https://github.com/l-trap">My git-hub profile</a></small></p>
+        <p><small><a href="mailto:luigi.trapassi@gmail.com">My mail</a></small></p>
+        <h3>GitHub Folder</h3>
+        <a class="buttons github" href="https://github.com/cvdlab-cg/281790/tree/master/final-projectt">View On GitHub</a></li>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
 </html>
