@@ -1,38 +1,183 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
- <head>
+<!doctype html>
+<html>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Silver Coffee Service</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.rs.slideshow.js"></script>
     <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/chairs.js"></script>
+    <script>
+	$(document).ready(function () {
+    $('#slideshow-div').rsfSlideshow();
+	});
+	
+	$('#slideshow-controls').rsfSlideshow({
+    controls: {
+        playPause: {auto: true},
+        previousSlide: {auto: true},
+        nextSlide: {auto: true},
+        index: {auto: true}
+    }
+	});
+	</script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-
-<body>
-  <div class="wrapper">
+   <body>
+    <div class="wrapper">
       <header>
-        <h1 class="header">Menu</h1>
+        <h1 class="header"><a href="http://l-trap.github.io/">Home</a></h1>
 
         <ul>
           <li><a class="buttons github" href="http://l-trap.github.io/chairs.html">Chair</a></li>
-          <li><a class="buttons github" href="http://l-trap.github.io/lamp.html">Table</a></li>
-          <li><a class="buttons github" href="http://l-trap.github.io/table.html">Lamp</a></li>
+          <li><a class="buttons github" href="http://l-trap.github.io/lamp.html">Lamp</a></li>
+          <li><a class="buttons github" href="http://l-trap.github.io/table.html">Table</a></li>
           <li><a class="buttons github" href="http://l-trap.github.io/coffeeservice.html">Coffee Service</a></li>
         </ul>
 
       </header>
+      <section>
+        <h1>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Silver Coffee Service</h1>
+
+<h3>
+<a name="decomposition" class="anchor" href="#decomposition"><span class="octicon octicon-link"></span></a>Description and decomposition</h3>
+
+<p>
+<em>"Reflective linear surfaces, to reflect on the objects’ purpose. Mirrors in which we project our interior world, to explore the roots of our cognitive experience. "</em>
+The <a href="http://www.bellini.it/design/cleto_munari_servizio_caffe.html">Silver Coffee Service</a> has the particularity to be based on the model of the <a href="http://it.wikipedia.org/wiki/Citt%C3%A0_ideale_(dipinto)">"Città Ideale" </a>.
+<img src="http://kidslink.bo.cnr.it/correggio/firenze/citta'ideale.jpg" /> <br/>
+
+The model consists in four parts: <br/>
+- the tray<br/>
+- the coffeepot<br/>
+- the teapot<br/>
+- the sugar bowl<br/>	
+
+But to model all of these parts, it was useful to recognize some common subparts, that are repeated often in each object.
+These subparts are:
+- the single cylinder block <br/>
+- the spout <br/>
+- the cover <br/>
+
+</p>
+
+<h3>
+<a name="main-functions" class="anchor" href="#main-functions"><span class="octicon octicon-link"></span></a>Functions used</h3>
+
+<p>
+
+To model this set of objects I largely used the library functions, with the exception of the function <code>arc</code>, described in the page <a href="http://l-trap.github.io/table.html">Table</a>.
+
+However I implemented all of the objects with similar functions, demostrating the high modularity of this coffee set.
+For example, each object has various columns arranged in a circle, and this feature is implemented this way:
+<pre><code>
+//other code..
+	var column = cylinderBlock();
+	var t_col = T([1])([7.5-0.75])(column);
+	var col = STRUCT(REPLICA(4)([t_col, R([0,1])(PI/2)]));
+//other code..
+</code></pre>
+
+A particularity is on the cover, on wich is present a curved volume, implemented with the <code>BEZIER</code> function this way: 
+<pre><code>
+
+	//Other code..
 	
-    <section>
+    var sb0 = BEZIER(S1)([b0,b1,b2]);
+	var sb01 = BEZIER(S1)([b01,b11,b21]);
+	
+	var vb = BEZIER(S2)([sb0,sb01])
+
+	var s = MAP(vb)(dom3D);
     
-    Here show about the coffee service!
-	
-    </section>
+    //Other code..
+
+</code></pre>
+
+<br/><br/>
+
+<h3>
+<a name="view" class="anchor" href="#view"><span class="octicon octicon-link"></span></a>View on Plasm.js</h3>
+
+<p>
+<a class="buttons github" href="http://cvdlab.github.io/plasm.js/">View</a>
+</p>
+<p>
+<a class="buttons github" href="https://github.com/cvdlab-cg/281790/blob/master/final-project/javascript/silver-coffee-service_low_res.js">Source code</a>
+</p>
+
+
+<h3>
+<a name="images" class="anchor" href="#images"><span class="octicon octicon-link"></span></a>Pictures</h3>
+<p>
+<div id="slideshow-div" class="rs-slideshow">
+     
+    <!-- 
+    Set up an initial slide -- this provides an image for users without JavaScript 
+    -->
+    <div class="slide-container">
+        <img src="/images/coffee/img01.jpg" />
     </div>
-</body>
+     
+    <!-- 
+    This list contains data about each slide. 
+    So that the slide images aren't loaded with the page, we use <a> tags. 
+    With some extra CSS rules, this allows for users without JavaScript to 
+    access the images by clicking the links. 
+    -->
+    <ol class="slides">
+      
+       <li>
+            <a href="/images/coffee/img03.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/coffee/screen01.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/coffee/screen02.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/coffee/screen03.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/coffee/screen04.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/coffee/img02.jpg"></a>
+        </li>
+         <li>
+            <a href="/images/coffee/screen05.jpg"></a>
+        </li>
+        <li>
+            <a href="/images/coffee/img04.jpg"></a>
+        </li>
+         <li>
+            <a href="/images/coffee/screen06.jpg"></a>
+        </li>
+    </ol>
+     
+</div>
+
+</p>
+      </section>
+      <footer>
+      	<h3>Contacts</h3>
+        <p><small><a href="https://github.com/l-trap">My git-hub profile</a></small></p>
+        <p><small><a href="mailto:luigi.trapassi@gmail.com">My mail</a></small></p>
+        <h3>GitHub Folder</h3>
+        <a class="buttons github" href="https://github.com/cvdlab-cg/281790/tree/master/final-projectt">View On GitHub</a></li>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
 </html>
